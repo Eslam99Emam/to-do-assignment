@@ -36,11 +36,10 @@ const createTask = (task) => {
         <div class="custom-check${task.status ? " check" : ""}">
             <span id="${task.id}"></span>
         </div>
-        <span class="task-title">${task.title} ${task.id}</span>
+        <span class="task-title">${task.title}</span>
         <div class="close"><img class="task-close" src="images/icon-cross.svg"></div>
     </div>
         `;
-    console.log(taskDiv);
     return taskDiv;
 };
 
@@ -106,14 +105,17 @@ document.addEventListener('click', (e) => {
     else if (e.target.classList.contains('task-title')) {
         console.log("tasks[e.target.id]");
         let id = e.target.parentElement.id;
+        tasks.forEach((task, index) => {
+            if (id == task.id) {
+                id = index;
+            }
+        });
         tasks[id].title = prompt('Edit your task', tasks[id].title);
         e.target.textContent = tasks[id].title;
         localStorage.setItem('tasks', JSON.stringify(tasks));
         localStorage.setItem('tasksCounter', JSON.stringify(tasksCounter));
     }
 });
-
-
 
 completedTasks.addEventListener('click', (e) => {
     buildCompleted();
